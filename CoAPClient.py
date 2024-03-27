@@ -1,30 +1,36 @@
+#!/usr/bin/env python3
+
+# SPDX-FileCopyrightText: Christian Amsüss and the aiocoap contributors
+#
+# SPDX-License-Identifier: MIT
+
+"""This is a usage example of aiocoap that demonstrates how to implement a
+simple client. See the "Usage Examples" section in the aiocoap documentation
+for some more information."""
+
+import logging
 import asyncio
+
 from aiocoap import *
 
-async def coap_put(host, path, payload):
-    protocol = await Context.create_client_context()
-    request = Message(code=PUT, uri=f"coap://{host}/{path}", payload=payload.encode('utf-8'))
-    try:
-        response = await protocol.request(request).response
-        print(f"Response Code: {response.code}")
-    except Exception as e:
-        print(f"Failed to send CoAP request: {e}")
+logging.basicConfig(level=logging.INFO)
 
 async def main():
-    host = "192.168.137.84"  # Replace with your Arduino's IP address
-    path = "light"  # Endpoint for controlling the LED on Arduino
-    #while True:
-    try:
-        user_input = input("Enter 'on' to turn the LED on, 'off' to turn it off, or 'exit' to quit: ")
-##        if user_input == 'exit':
-##            break
-        if user_input in ('on', 'off'):
-            payload = '1' if user_input == 'on' else '0'
-            await coap_put(host, path, payload)
-        else:
-            print("Invalid input. Please enter 'on', 'off', or 'exit'.")
-    except asyncio.CancelledError:
-        print("Task cancelled.")
+    """Perform a single PUT request to localhost on the default port, URI
+    "/other/block". The request is sent 2 seconds after initialization.
+
+    The payload is bigger than 1kB, and thus sent as several blocks."""
+
+    context = await Context.create_client_context()
+
+    await asyncio.sleep(2)
+
+    payload = b"0"
+    request = Message(code=PUT, payload=payload, uri="coap://192.168.137.116/light")
+
+    response = await context.request(request).response
+
+    print('Result: %s\n%r'%(response.code, response.payload))
 
 if __name__ == "__main__":
     asyncio.run(main())
