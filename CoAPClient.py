@@ -1,28 +1,30 @@
-from coapthon.client.helperclient import HelperClient
+import asyncio
+from aiocoap import *
 
-# CoAP server endpoint URL
-server_host = "192.168.137.230"  # Replace with your Arduino's IP address
-server_port = 5683  # Default CoAP port
+async def coap_put(host, path, payload):
+    protocol = await Context.create_client_context()
+    request = Message(code=PUT, uri=f"coap://{host}/{path}", payload=payload.encode('utf-8'))
+    try:
+        response = await protocol.request(request).response
+        print(f"Response Code: {response.code}")
+    except Exception as e:
+        print(f"Failed to send CoAP request: {e}")
 
-# Initialize the CoAP client
-client = HelperClient(server=(server_host, server_port))
+async def main():
+    host = "192.168.137.84"  # Replace with your Arduino's IP address
+    path = "light"  # Endpoint for controlling the LED on Arduino
+    #while True:
+    try:
+        user_input = input("Enter 'on' to turn the LED on, 'off' to turn it off, or 'exit' to quit: ")
+##        if user_input == 'exit':
+##            break
+        if user_input in ('on', 'off'):
+            payload = '1' if user_input == 'on' else '0'
+            await coap_put(host, path, payload)
+        else:
+            print("Invalid input. Please enter 'on', 'off', or 'exit'.")
+    except asyncio.CancelledError:
+        print("Task cancelled.")
 
-while True:
-    user_input = input("Enter 'on' to turn the LED on, 'off' to turn it off, or 'exit' to quit: ")
-    
-    if user_input == 'exit':
-        break
-    elif user_input == 'on':
-        payload = "1"
-    elif user_input == 'off':
-        payload = "0"
-    else:
-        print("Invalid input. Please enter 'on', 'off', or 'exit'.")
-        continue
-    
-    # Send CoAP PUT request based on user input
-    response = client.put("light", payload)
-    print("Response Code:", response.code)
-
-# Close the client connection
-client.stop()
+if __name__ == "__main__":
+    asyncio.run(main())

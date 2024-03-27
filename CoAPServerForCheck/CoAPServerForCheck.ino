@@ -87,8 +87,8 @@ void setup() {
 
   // client response callback.
   // this endpoint is single callback.
-  //Serial.println("Setup Response Callback");
-  //coap.response(callback_response);
+  Serial.println("Setup Response Callback");
+  coap.response(callback_response);
 
   // start coap server/client
   coap.start();
