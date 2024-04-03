@@ -2,7 +2,7 @@ import socket
 import CoAP_encoder
 import CoAP_decoder
 
-HOSTNAME = "coap.me"
+HOSTNAME = "192.168.137.32"
 PORT = 5683
 
 # Connect to coap.me
