@@ -1,8 +1,8 @@
-#0.1 - A basic application using PyQt6
+#0.1 Basic App
 
 import sys
 from PyQt6.QtWidgets    import QApplication, QWidget, QLabel
-
+from PyQt6.QtGui import QIcon
 
 class MainWindow(QWidget):
 
@@ -13,7 +13,9 @@ class MainWindow(QWidget):
     def initializeUI(self):
         """Setting up the App's GUI"""
         self.setGeometry(0,0,300,300)
-        self.setWindowTitle("QLabel Example")
+        self.setWindowTitle('CoAPP')
+        self.setWindowIcon(QIcon('icon5.png'))
+        
         self.setUpMainWindow()
         self.centerOnScreen()
         self.show()
