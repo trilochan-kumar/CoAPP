@@ -11,3 +11,6 @@
 2. Opening IDLE from Command Prompt
 ====================================
  - "python -i -m idlelib"
+
+
+NOTE: Do not forget to use GitHub
