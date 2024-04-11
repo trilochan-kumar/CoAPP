@@ -1,3 +1,4 @@
+This file contains:
 1. Setting up Python Virtual Environment
 2. Opening IDLE
 3. Cleanly deactivating Virtual environment
