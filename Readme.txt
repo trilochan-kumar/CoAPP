@@ -14,4 +14,4 @@ This file contains:
  - "python -i -m idlelib"
 
 
-NOTE: Do not forget to use GitHub
+NOTE: Do not forget to use GitHub Desktop
