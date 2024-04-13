@@ -2,8 +2,8 @@
 #include <WiFiUdp.h>
 #include <coap-simple.h>
 
-const char* ssid     = "2o25";
-const char* password = "19o82oo2";
+const char* ssid     = "SSID";
+const char* password = "PASSWORD";
 
 // CoAP client response callback
 void callback_response(CoapPacket &packet, IPAddress ip, int port);
